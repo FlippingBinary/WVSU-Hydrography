@@ -1,0 +1,43 @@
+version: "3.2"
+
+secrets:
+  nldas-password:
+    file: ./secrets/nldas-password
+  nldas-username:
+    file: ./secrets/nldas-username
+  
+services:
+  backend:
+    build:
+      context: ./backend
+    environment:
+      - NLDAS_USERNAME_FILE=/run/secrets/nldas-username
+      - NLDAS_PASSWORD_FILE=/run/secrets/nldas-password
+    restart: unless-stopped
+    secrets:
+      - nldas-password
+      - nldas-username
+    volumes:
+      - type: bind
+        source: ./cache
+        target: /home/flask/cache
+  frontend:
+    build:
+      context: ./frontend
+    depends_on:
+      - backend
+    restart: unless-stopped
+  nginx:
+    depends_on:
+      - frontend
+    image: nginx:stable
+    ports:
+      - target: 80
+        published: 8080
+        protocol: tcp
+        mode: host
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/conf.d/default.conf
