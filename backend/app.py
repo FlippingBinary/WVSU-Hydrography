@@ -19,9 +19,11 @@ min_wv_lat = 37.201483
 max_wv_lon = -77.719519
 min_wv_lon = -82.644739
 
-# Set the username and password from the environment
-username = os.getenv('USERNAME')
-password = os.getenv('PASSWORD')
+# Get username and password from secrets file
+with open('/run/secrets/nldas-username', 'r') as file:
+  username = file.read().replace('\n', '')
+with open('/run/secrets/nldas-password', 'r') as file:
+  password = file.read().replace('\n', '')
 
 # Create handlers for downloading files
 if username is not None and password is not None:
@@ -46,9 +48,17 @@ def root():
 # This POST method should return the amount of evaporation for the timerange specified.
 @app.route('/evaporation', methods=['POST'])
 def evaporation():
+  print('Inside Evaporation request')
+  try:
+    print(request.data)
+  except Exception as e:
+    print('A daggone exception occurred')
+    print(e)
+  except:
+    print('A daggone exceptional exception occurred')
   # Pull the start/end dates from the form variables
-  start_date = parse(request.form['start_date'])
-  end_date = parse(request.form['end_date']) - timedelta(minutes=1)
+  start_date = parse(request.values['start_date'])
+  end_date = parse(request.values['end_date']) - timedelta(minutes=1)
   # Print the variables to the console (view in Docker Dashboard)
   print('Request received for range: {} to {}'.format(start_date,end_date))
   # Create a evaporation dictionary to hold the data
@@ -125,80 +135,91 @@ def evaporation():
 # This POST method should return the amount of precipitation for the timerange specified.
 @app.route('/precipitation', methods=['POST'])
 def precipitation():
-  # Pull the start/end dates from the form variables
-  start_date = parse(request.form['start_date'])
-  end_date = parse(request.form['end_date']) - timedelta(minutes=1)
-  # Print the variables to the console (view in Docker Dashboard)
-  print('Request received for range: {} to {}'.format(start_date,end_date))
-  # Create a precipitation dictionary to hold the data
-  precipitation = {}
-  count = 0
-  precipitation['average'] = 0
-  precipitation['history'] = []
+  print('Inside Precipitation request')
+  try:
+    print(request.data)
 
-  api = GranuleQuery()
-  granules = api.short_name("NLDAS_FORA0125_H") \
-      .temporal(start_date, end_date) \
-      .get()
+    # Pull the start/end dates from the form variables
+    start_date = parse(request.json['start_date'])
+    end_date = parse(request.json['end_date']) - timedelta(minutes=1)
+    # Print the variables to the console (view in Docker Dashboard)
+    print('Request received for range: {} to {}'.format(start_date,end_date))
+    # Create a precipitation dictionary to hold the data
+    precipitation = {}
+    count = 0
+    precipitation['average'] = 0
+    precipitation['history'] = []
 
-  # Make sure the granules cache directory exists
-  Path('./cache').mkdir(parents=True, exist_ok=True)
+    api = GranuleQuery()
+    granules = api.short_name("NLDAS_FORA0125_H") \
+        .temporal(start_date, end_date) \
+        .get()
 
-  # Loop through the granules from CMR
-  for granule in granules:
-    # Get the URL of the granule
-    url = granule["links"][0]["href"]
-    # Create the filename of the granule by combining NLDAS with the id
-    filename = Path('./cache/') / granule["producer_granule_id"]
-    # Test if the file already exists
-    if Path(filename).is_file():
-      print('Pulling from cache: {}'.format(filename))
-    elif username is not None and password is not None:
-      # Announce filename for diagnostic purposes (goes to Docker Dashboard)
-      print('Downloading {}'.format(filename))
-      # Create the file and open it
-      with urllib.request.urlopen(url) as response, open(filename, 'wb') as file:
-        # read in contents of downloaded file
-        data = response.read()
-        # Write the contents to the local file
-        file.write(data)
-    else:
-      print('ERROR: Set environment variables USERNAME/PASSWORD for NLDAS2 download or prebuild cache')
-      return '{error:"Set environment variables USERNAME/PASSWORD for NLDAS2 download or prebuild cache"}'
+    # Make sure the granules cache directory exists
+    Path('./cache').mkdir(parents=True, exist_ok=True)
 
-    # Open the file with pyGRIB
-    grbs = pygrib.open(str(filename))
-    # Select parameter 61 (precipitation hourly total)
-    grb = grbs.select(parameterName='61')[0]
-    # Identify the indexes corresponding to the edges of the WV bounding box
-    x1 = np.searchsorted(grb.distinctLongitudes, min_wv_lon)
-    y1 = np.searchsorted(grb.distinctLatitudes, min_wv_lat)
-    x2 = np.searchsorted(grb.distinctLongitudes, max_wv_lon, side='right')
-    y2 = np.searchsorted(grb.distinctLatitudes, max_wv_lat, side='right')
-    # Print those indexes for diagnostic purposes
-    print("Latitude range:  {} - {}".format(grb.distinctLatitudes[y1], grb.distinctLatitudes[y2]))
-    print("Longitude range: {} - {}".format(grb.distinctLongitudes[x1], grb.distinctLongitudes[x2]))
-    # Pull the numpy subset of values inside the bounding box
-    data = grb.values[y1:y2, x1:x2]
-    # Calculate average using numpy (speed boost!)
-    avg = np.average(data)
-    # Append this history event to the output variable
-    precipitation['history'].append({
-      'date': grb.dataDate,
-      'time': grb.dataTime,
-      'value': avg
-    })
-    # Add average the variable
-    precipitation['average'] += float(avg)
-    # Increase count for later division
-    count += 1
+    # Loop through the granules from CMR
+    for granule in granules:
+      # Get the URL of the granule
+      url = granule["links"][0]["href"]
+      # Create the filename of the granule by combining NLDAS with the id
+      filename = Path('./cache/') / granule["producer_granule_id"]
+      # Test if the file already exists
+      if Path(filename).is_file():
+        print('Pulling from cache: {}'.format(filename))
+      elif username is not None and password is not None:
+        # Announce filename for diagnostic purposes (goes to Docker Dashboard)
+        print('Downloading {}'.format(filename))
+        # Create the file and open it
+        with urllib.request.urlopen(url) as response, open(filename, 'wb') as file:
+          # read in contents of downloaded file
+          data = response.read()
+          # Write the contents to the local file
+          file.write(data)
+      else:
+        print('ERROR: Set environment variables USERNAME/PASSWORD for NLDAS2 download or prebuild cache')
+        return '{error:"Set environment variables USERNAME/PASSWORD for NLDAS2 download or prebuild cache"}'
 
-  # Divide 'average' by number of granules to produce real average
-  if count > 0:
-    precipitation['average'] /= count
+      # Open the file with pyGRIB
+      grbs = pygrib.open(str(filename))
+      # Select parameter 61 (precipitation hourly total)
+      grb = grbs.select(parameterName='61')[0]
+      # Identify the indexes corresponding to the edges of the WV bounding box
+      x1 = np.searchsorted(grb.distinctLongitudes, min_wv_lon)
+      y1 = np.searchsorted(grb.distinctLatitudes, min_wv_lat)
+      x2 = np.searchsorted(grb.distinctLongitudes, max_wv_lon, side='right')
+      y2 = np.searchsorted(grb.distinctLatitudes, max_wv_lat, side='right')
+      # Print those indexes for diagnostic purposes
+      print("Latitude range:  {} - {}".format(grb.distinctLatitudes[y1], grb.distinctLatitudes[y2]))
+      print("Longitude range: {} - {}".format(grb.distinctLongitudes[x1], grb.distinctLongitudes[x2]))
+      # Pull the numpy subset of values inside the bounding box
+      data = grb.values[y1:y2, x1:x2]
+      # Calculate average using numpy (speed boost!)
+      avg = np.average(data)
+      # Append this history event to the output variable
+      precipitation['history'].append({
+        'date': grb.dataDate,
+        'time': grb.dataTime,
+        'value': avg
+      })
+      # Add average the variable
+      precipitation['average'] += float(avg)
+      # Increase count for later division
+      count += 1
+
+    # Divide 'average' by number of granules to produce real average
+    if count > 0:
+      precipitation['average'] /= count
   
-  # Return data in JSON format
-  return jsonify(precipitation)
+    # Return data in JSON format
+    return jsonify(precipitation)
+  except Exception as e:
+    print('A daggone exception occurred')
+    print(e)
+    return "nothing"
+  except:
+    print('A daggone exceptional exception occurred')
+    return "nothing"
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0')
