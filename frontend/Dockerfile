@@ -18,6 +18,9 @@ RUN npm install
 # Copy source files
 COPY --chown=node:node . .
 
+# Disable telemetry
+ENV NEXT_TELEMETRY_DISABLED=1
+
 # Build app to detect build-time errors
 RUN npm run build
 
