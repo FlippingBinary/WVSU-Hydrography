@@ -24,8 +24,6 @@ services:
   frontend:
     build:
       context: ./frontend
-    environment:
-      - NEXT_TELEMETRY_DISABLED=1
     depends_on:
       - backend
     restart: unless-stopped
