@@ -20,5 +20,5 @@ These credentials will be used by the backend docker container to pull GRIB file
 
 This will create three docker containers and puts them in the background:
 1. The first container runs nginx as a proxy in front of the backend and frontend. It listens on port 8080.
-2. The second runs the project inside the `frontend` folder which is a Next.js web app.
-3. The third runs the project inside the `backend` folder. That is a Python project which pulls GRIB files on demand and produces data for the frontend.
+2. The second builds and runs the project inside the `frontend` folder which is a Next.js web app.
+3. The third builds and runs the project inside the `backend` folder. That is a Python project which pulls GRIB files on demand and produces data for the frontend.
