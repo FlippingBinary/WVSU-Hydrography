@@ -87,36 +87,50 @@ export default function Precipitation(){
 
 import Head from 'next/head'
 import Link from 'next/link'
+import Nav from './components/nav'
+import {useState} from 'react'
+// import { tryGetPreviewData } from 'next/dist/next-server/server/api-utils'
+
 
 export default function Precipitation(){
+  const [data, setData] = useState();
+  async function getData() {
+    document.getElementById('btn').disabled = true;
+    const rawResponse = await fetch('/api/precipitation', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'start_date': document.getElementById('start_date').value,
+        'end_date': document.getElementById('end_date').value
+      })
+    });
+    console.log(rawResponse);
+    const content = await rawResponse.text();
+    console.log(content);
+    setData(content);
+    document.getElementById('btn').disabled = false;
+  }
+    
   return (
     <>
-    <Head>
-      <title>Precipitation</title>
-      <link rel="icon" href="/precipitation.ico" />
-    </Head>
-    <main>
-    <nav>
-      <ul>
-        <li>
-        <Link href="/" className="navbar"><a>Home</a></Link>
-
-        </li>
-    </ul>
-    <body>
-  <form action="#" method="post">
-      <label for="startdate">Start date:</label>
-      <input type="date" id="start_date" name="start_date" />
-      <br />
-      <label for="endtdate">End date:</label>
-      <input type="date" id="end_date" name="end_date" />
-      <br />
-      <br />
-      <input type="submit" />
-      </form>
-      </body>
-      </nav>
-    </main>
+      <Head>
+        <title>Precipitation</title>
+      </Head>
+      <Nav />
+      <main>
+        <label for="start_date">Start date:</label>
+        <input type="date" id="start_date" name="start_date" />
+        <br />
+        <label for="end_date">End date:</label>
+        <input type="date" id="end_date" name="end_date" />
+        <br />
+        <br />
+        <button id="btn" onClick={() => getData()}>Process</button>
+        <div>{data}</div>
+      </main>
       
     <style jsx>{`
       :global(body) {
@@ -152,17 +166,4 @@ export default function Precipitation(){
     `}</style>
   </>
   )
-}
-
-export async function getStaticProps() {
-const rawResponse = await fetch('http://research.globashell.com/api/precipitation', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: "start_date=01/01/1980&end_date=01/02/1980"});
-  console.log(rawResponse)
-  const content = await rawResponse.json();
-  console.log(content);
 }

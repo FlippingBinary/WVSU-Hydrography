@@ -3,8 +3,7 @@ import Link from 'next/link'
 
 const links = [
   { href: '../precipitation', label: 'Precipitation' },
-  { href: '../evaporation', label: 'Evaporation' },
-  { href:'https://www.wvstateu.edu/about.aspx' , label:'About'}
+  { href: '../evaporation', label: 'Evaporation' }
 ].map(link => {
   link.key = `nav-link-${link.href}-${link.label}`
   return link
@@ -13,11 +12,12 @@ const links = [
 const Nav = () => (
   <nav>
     <ul>
-            {links.map(({ key, href, label }) => (
+      {links.map(({ key, href, label }) => (
         <li key={key}>
-          <a href={href}>{label}</a>
+          <Link href={href}>{label}</Link>
         </li>
       ))}
+      <li><a href='https://www.wvstateu.edu/about.aspx'>About</a></li>
     </ul>
 
     <style jsx>{`
