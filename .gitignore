@@ -1,6 +1,9 @@
 # Secrets
 secrets
 
+# Cache
+cache
+
 # Logs
 logs
 *.log
