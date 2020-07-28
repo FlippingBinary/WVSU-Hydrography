@@ -9,6 +9,9 @@ import re
 import os
 import glob
 from pathlib import Path
+import redis
+
+r = redis.Redis(host='redis', port=6379)
 
 # Create the global web app
 app = Flask(__name__)
@@ -43,6 +46,11 @@ def root():
   return jsonify(cache)
 #  print('ERROR: Expected /evaporation or /precipitation, not /')
 #  return '{error:"Expected /evaporation or /precipitation, not /"}'
+
+# Test redis
+@app.route("/get")
+def get_redis():
+  return r.get('test')
 
 # Define the evaporation route.
 # This POST method should return the amount of evaporation for the timerange specified.

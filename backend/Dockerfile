@@ -51,7 +51,7 @@ RUN conda update --all \
 
 # Install the CMR API for Python which allows us to search NASA's data sources.
 # Also install flask which allows us to create a web server.
-RUN /opt/conda/bin/python -m pip install python-cmr flask
+RUN /opt/conda/bin/python -m pip install python-cmr flask redis
 
 # Install pyHSPF from Github. Cleanup after.
 RUN wget --quiet https://github.com/djlampert/PyHSPF/archive/master.zip -O ~/pyhspf.zip \
