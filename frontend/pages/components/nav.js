@@ -14,7 +14,7 @@ const Nav = () => (
     <ul>
       {links.map(({ key, href, label }) => (
         <li key={key}>
-          <Link href={href}>{label}</Link>
+          <Link href={href}><a>{label}</a></Link>
         </li>
       ))}
       <li><a href='https://www.wvstateu.edu/about.aspx'>About</a></li>
