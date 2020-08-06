@@ -20,7 +20,7 @@ services:
       - nldas-password
       - nldas-username
     volumes:
-      - ./cache:/home/flask/cache
+      - ./cache:/home/backend/cache
   frontend:
     build:
       context: ./frontend

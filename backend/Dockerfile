@@ -51,7 +51,7 @@ RUN conda update --all \
 
 # Install the CMR API for Python which allows us to search NASA's data sources.
 # Also install flask which allows us to create a web server.
-RUN /opt/conda/bin/python -m pip install python-cmr flask redis
+RUN /opt/conda/bin/python -m pip install python-cmr redis
 
 # Install pyHSPF from Github. Cleanup after.
 RUN wget --quiet https://github.com/djlampert/PyHSPF/archive/master.zip -O ~/pyhspf.zip \
@@ -64,22 +64,19 @@ RUN wget --quiet https://github.com/djlampert/PyHSPF/archive/master.zip -O ~/pyh
     && rm -R ~/PyHSPF-master
 
 # Add an unprivileged user to ultimately use.
-RUN useradd --create-home --home-dir /home/flask --shell /bin/bash flask \
-    && echo ". /opt/conda/etc/profile.d/conda.sh" >> /home/flask/.bashrc\
-    && echo "conda activate base" >> /home/flask/.bashrc \
-    && su -c "conda init bash" - flask
+RUN useradd --create-home --home-dir /home/backend --shell /bin/bash backend \
+    && echo ". /opt/conda/etc/profile.d/conda.sh" >> /home/backend/.bashrc\
+    && echo "conda activate base" >> /home/backend/.bashrc \
+    && su -c "conda init bash" - backend
 
 # Switch to the unprivileged user.
-USER flask
+USER backend
 
 # Set default directory to unprivileged user's home.
-WORKDIR /home/flask
+WORKDIR /home/backend
 
 # Copy files into container.
-COPY . /home/flask/
-
-# Announce port 8888 to be exposed.
-EXPOSE 5000
+COPY --chown=backend:backend . /home/backend/
 
 # Set default startup command.
-CMD uwsgi --enable-threads --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
+CMD ["/opt/conda/bin/python", "app.py"]
