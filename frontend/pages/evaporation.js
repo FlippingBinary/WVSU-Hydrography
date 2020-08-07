@@ -1,9 +1,10 @@
 import Head from 'next/head'
 import Nav from './components/nav'
 import {useState} from 'react'
+import { Bar } from 'react-chartjs-2'
 
 export default function Evaporation(){
-  const [data, setData] = useState();
+  const [data, setData] = useState()
   async function pollData() {
     const rawResponse = await fetch('/api/results', {
       method: 'POST',
@@ -23,8 +24,26 @@ export default function Evaporation(){
         console.log('Result is error: ', content)
       }
       else if ( content.status === 'done' ) {
-        setData(content)
-        document.getElementById('btn').disabled = false;
+        let newData = {
+          labels: [],
+          datasets: [{
+            label: 'evaporation',
+            type: 'line',
+            data: [],
+            fill: false,
+            backgroundColor: '#71B37C',
+            borderColor: '#71B37C',
+            hoverBackgroundColor: '#71B37C',
+            hoverBorderColor: '#71B37C'
+          }]
+        }
+        content.results.history.forEach((item, index) => {
+          newData['labels'].push(item.date + '-' + item.time)
+          newData['datasets'][0].data.push(item.value)
+        })
+        console.log(newData)
+        setData(newData)
+        document.getElementById('btn').disabled = false
       }
       else {
         setTimeout(pollData, 1000)
@@ -49,17 +68,17 @@ export default function Evaporation(){
         'end_date': document.getElementById('end_date').value
       })
     });
-    console.log(rawResponse);
+    console.log(rawResponse)
     if ( rawResponse.status !== 200 ) {
       setData({
         status: 'error',
         response: rawResponse
       })
-      document.getElementById('btn').disabled = false;
+      document.getElementById('btn').disabled = false
       return
     }
     const content = await rawResponse.json()
-    console.log(content);
+    console.log(content)
     if ( (content.status || 'error' ) === 'submitted' ) {
       await pollData()
     }
@@ -80,7 +99,9 @@ export default function Evaporation(){
         <br />
         <br />
         <button id="btn" onClick={() => getData()}>Process</button>
-        <div>{data && JSON.stringify(data)}</div>
+        {data &&
+          <Bar data={data} />
+        }
       </main>
       <style jsx>{`
         :global(body) {
