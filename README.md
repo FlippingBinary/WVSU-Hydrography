@@ -22,3 +22,7 @@ This will create three docker containers and puts them in the background:
 1. The first container runs nginx as a proxy in front of the backend and frontend. It listens on port 8080.
 2. The second builds and runs the project inside the `frontend` folder which is a Next.js web app.
 3. The third builds and runs the project inside the `backend` folder. That is a Python project which pulls GRIB files on demand and produces data for the frontend.
+
+## Acknowledgment
+
+This code is supported by the National Science Foundation under Award No. OIA-1458952. Any opinions, findings and conclusions, or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.
