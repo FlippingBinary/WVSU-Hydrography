@@ -1,31 +1,29 @@
 import Head from 'next/head'
 import Nav from './components/nav'
-import {useState} from 'react'
+import { useState } from 'react'
 import { Bar } from 'react-chartjs-2'
 
-
-export default function Precipitation(){
+export default function Precipitation () {
   const [data, setData] = useState()
-  async function pollData() {
+  async function pollData () {
     const rawResponse = await fetch('/api/results', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        'type': 'precipitation',
-        'start_date': document.getElementById('start_date').value,
-        'end_date': document.getElementById('end_date').value
+        type: 'precipitation',
+        start_date: document.getElementById('start_date').value,
+        end_date: document.getElementById('end_date').value
       })
     })
     try {
       const content = await rawResponse.json()
-      if ( content.status === 'error' ) {
+      if (content.status === 'error') {
         console.log('Result is error: ', content)
-      }
-      else if ( content.status === 'done' ) {
-        let newData = {
+      } else if (content.status === 'done') {
+        const newData = {
           labels: [],
           datasets: [{
             label: 'precipitation',
@@ -39,38 +37,36 @@ export default function Precipitation(){
           }]
         }
         content.results.history.forEach((item, index) => {
-          newData['labels'].push(item.date + '-' + item.time)
-          newData['datasets'][0].data.push(item.value)
+          newData.labels.push(item.date + '-' + item.time)
+          newData.datasets[0].data.push(item.value)
         })
         console.log(newData)
         setData(newData)
         document.getElementById('btn').disabled = false
-      }
-      else {
+      } else {
         setTimeout(pollData, 1000)
       }
-    }
-    catch (err) {
-      console.log("Caught error from json processing ", err)
+    } catch (err) {
+      console.log('Caught error from json processing ', err)
       document.getElementById('btn').disabled = false
     }
   }
-  async function getData() {
-    document.getElementById('btn').disabled = true;
+  async function getData () {
+    document.getElementById('btn').disabled = true
     const rawResponse = await fetch('/api/submit', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        'type': 'precipitation',
-        'start_date': document.getElementById('start_date').value,
-        'end_date': document.getElementById('end_date').value
+        type: 'precipitation',
+        start_date: document.getElementById('start_date').value,
+        end_date: document.getElementById('end_date').value
       })
     })
-    console.log(rawResponse);
-    if ( rawResponse.status !== 200 ) {
+    console.log(rawResponse)
+    if (rawResponse.status !== 200) {
       setData({
         status: 'error',
         response: rawResponse
@@ -80,11 +76,11 @@ export default function Precipitation(){
     }
     const content = await rawResponse.json()
     console.log(content)
-    if ( (content.status || 'error' ) === 'submitted' ) {
+    if ((content.status || 'error') === 'submitted') {
       await pollData()
     }
   }
-    
+
   return (
     <>
       <Head>
@@ -92,20 +88,19 @@ export default function Precipitation(){
       </Head>
       <Nav />
       <main>
-        <label htmlFor="start_date">Start date:</label>
-        <input type="date" id="start_date" name="start_date" />
+        <label htmlFor='start_date'>Start date:</label>
+        <input type='date' id='start_date' name='start_date' />
         <br />
-        <label htmlFor="end_date">End date:</label>
-        <input type="date" id="end_date" name="end_date" />
+        <label htmlFor='end_date'>End date:</label>
+        <input type='date' id='end_date' name='end_date' />
         <br />
         <br />
-        <button id="btn" onClick={() => getData()}>Process</button>
+        <button id='btn' onClick={() => getData()}>Process</button>
         {data &&
-          <Bar data={data} />
-        }
+          <Bar data={data} />}
       </main>
-      
-    <style jsx>{`
+
+      <style jsx>{`
       :global(body) {
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
@@ -136,7 +131,8 @@ export default function Precipitation(){
         text-decoration: none;
         font-size: 13px;
       }
-    `}</style>
-  </>
+    `}
+      </style>
+    </>
   )
 }

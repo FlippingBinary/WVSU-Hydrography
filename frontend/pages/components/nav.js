@@ -45,7 +45,8 @@ const Nav = () => (
         text-decoration: none;
         font-size: 13px;
       }
-    `}</style>
+    `}
+    </style>
   </nav>
 )
 
