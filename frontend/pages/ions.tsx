@@ -130,36 +130,20 @@ export default function Ions () {
         }
         download.style.visibility = 'visible'
         download.disabled = false
+
+        console.log(`Filtered down to ${countIons}/${countMethod}/${countFraction}/${countWater}/${countTotal} rows`)
       },
       error: (err,file) => {
         btn.disabled = false
       }
     })
 
-    console.log(`Filtered down to ${countIons}/${countMethod}/${countFraction}/${countWater}/${countTotal} rows`)
-
-    // We only want datasets with the eight ions and total dissolved solids
-    /*
-    const filteredIons = Object.fromEntries(Object.entries(ions).filter(([k,v]) => (
-      ("Carbonate" in v) &&
-      ("Bicarbonate" in v) &&
-      ('Calcium' in v) &&
-      ('Magnesium' in v) &&
-      ('Sodium' in v) &&
-      ('Potassium' in v) &&
-      ('Chloride' in v) &&
-      ('Sulfate' in v) &&
-      ('Total dissolved solids' in v)
-    )))
-    */
-
-
   }
 
   return (
     <>
       <Head>
-        <title>Precipitation</title>
+        <title>Ions</title>
       </Head>
       <Nav />
       <main>
