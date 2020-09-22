@@ -2607,7 +2607,7 @@ export default function Ions () {
             console.log(`Placing sample ${results.length-1} at (${cationX}/${cationY}), (${anionX}/${anionY}), (${combinationX}/${combinationY})`)
             newOptions.series.push({
               type: 'scatter',
-              name: `Sample ${results.length}`,
+              name: `Sample ${results.length-1}`,
               data: [{
                 x: cationX,
                 y: cationY
