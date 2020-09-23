@@ -2,8 +2,13 @@ import Head from 'next/head'
 import Nav from './components/nav'
 import { CSSProperties, useState } from 'react'
 import * as Highcharts from 'highcharts'
+import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsReact from 'highcharts-react-official'
 import Papa from 'papaparse'
+
+if (typeof Highcharts === 'object') {
+  HighchartsExporting(Highcharts)
+}
 
 interface Ions {
   [key: string]: Map<string,string>
@@ -21,18 +26,18 @@ const validIons = [
   'Total dissolved solids'
 ]
 
-const CALCIUM_WEIGHT = 40.08
-const MAGNESIUM_WEIGHT = 24.31
-const SODIUM_WEIGHT = 22.99
-const POTASSIUM_WEIGHT = 39.1
-const BICARBONATE_WEIGHT = 61.02
-const CARBONATE_WEIGHT = 60.01
-const SULFATE_WEIGHT = 96.06
-const CHLORIDE_WEIGHT = 35.45
+const CALCIUM_WEIGHT = 40.08 // vs 40
+const MAGNESIUM_WEIGHT = 24.31 // vs 24
+const SODIUM_WEIGHT = 22.99 // vs 23
+const POTASSIUM_WEIGHT = 39.1 // vs 39
+const BICARBONATE_WEIGHT = 61.02 // vs 61
+const CARBONATE_WEIGHT = 60.01 // vs 60
+const SULFATE_WEIGHT = 96.06 // vs 96
+const CHLORIDE_WEIGHT = 35.45 // vs 35.6
 
 const BASE_CHART = {
   title: {
-    text: 'Piper POC'
+    text: 'Piper Chart'
   },
   chart: {
     height: 680,
@@ -79,6 +84,22 @@ const BASE_CHART = {
   xAxis: {
     visible: false,
     max: 5
+  },
+  tooltip: {
+    useHTML: true,
+    headerFormat: '<table>',
+    pointFormat: '<tr><th colspan="2"><h3>{point.label}</h3></th></tr>' +
+        '<tr><th>Carbonate</th><td>{point.carbonate}</td></tr>' +
+        '<tr><th>Bicarbonate</th><td>{point.bicarbonate}</td></tr>' +
+        '<tr><th>Calcium</th><td>{point.calcium}</td></tr>' +
+        '<tr><th>Magnesium</th><td>{point.magnesium}</td></tr>' +
+        '<tr><th>Sodium</th><td>{point.sodium}</td></tr>' +
+        '<tr><th>Potassium</th><td>{point.potassium}</td></tr>' +
+        '<tr><th>Chloride</th><td>{point.chloride}</td></tr>' +
+        '<tr><th>Sulfate</th><td>{point.sulfate}</td></tr>' +
+        '<tr><th>TDS</th><td>{point.tds}</td></tr>',
+    footerFormat: '</table>',
+    followPointer: false
   },
   series: [
     // Area(s)
@@ -2610,13 +2631,43 @@ export default function Ions () {
               name: `Sample ${results.length-1}`,
               data: [{
                 x: cationX,
-                y: cationY
+                y: cationY,
+                label: `Sample ${results.length-1}`,
+                carbonate: value['Carbonate'],
+                bicarbonate: value['Bicarbonate'],
+                calcium: value['Calcium'],
+                magnesium: value['Magnesium'],
+                sodium: value['Sodium'],
+                potassium: value['Potassium'],
+                chloride: value['Chloride'],
+                sulfate: value['Sulfate'],
+                tds: value['Total dissolved solids']
               },{
                 x: anionX,
-                y: anionY
+                y: anionY,
+                label: `Sample ${results.length-1}`,
+                carbonate: value['Carbonate'],
+                bicarbonate: value['Bicarbonate'],
+                calcium: value['Calcium'],
+                magnesium: value['Magnesium'],
+                sodium: value['Sodium'],
+                potassium: value['Potassium'],
+                chloride: value['Chloride'],
+                sulfate: value['Sulfate'],
+                tds: value['Total dissolved solids']
               },{
                 x: combinationX,
-                y: combinationY
+                y: combinationY,
+                label: `Sample ${results.length-1}`,
+                carbonate: value['Carbonate'],
+                bicarbonate: value['Bicarbonate'],
+                calcium: value['Calcium'],
+                magnesium: value['Magnesium'],
+                sodium: value['Sodium'],
+                potassium: value['Potassium'],
+                chloride: value['Chloride'],
+                sulfate: value['Sulfate'],
+                tds: value['Total dissolved solids']
               }]
             })
           }
