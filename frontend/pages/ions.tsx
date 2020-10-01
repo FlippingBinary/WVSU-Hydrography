@@ -2703,11 +2703,12 @@ export default function Ions () {
       <main>
         <RangePicker disabledDate={disabledDate} format={"MM-DD-YYYY"} onChange={(dates, dateStrings)=>{setStartDate(dateStrings[0]);setEndDate(dateStrings[1]);console.log('Set dates ', dateStrings)}} disabled={loading} />
         <Button type="primary" onClick={() => getData()} loading={loading} disabled={loading}>{loading?'Processing':'Process'}</Button>
-        <HighchartsReact
-          highcharts={Highcharts}
-          options={options}
-        />
         {data &&
+        <>
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={options}
+          />
           <table>
             <thead>
               <tr>
@@ -2742,6 +2743,7 @@ export default function Ions () {
               ):'')}
             </tbody>
           </table>
+        </>
         }
       </main>
 
