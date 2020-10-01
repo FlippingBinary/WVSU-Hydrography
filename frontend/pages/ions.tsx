@@ -5,6 +5,8 @@ import * as Highcharts from 'highcharts'
 import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsReact from 'highcharts-react-official'
 import Papa from 'papaparse'
+import { Button, DatePicker } from 'antd'
+const { RangePicker } = DatePicker
 
 if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)
@@ -2514,19 +2516,12 @@ const BASE_CHART = {
 export default function Ions () {
   const [data, setData] = useState<string[][]>()
   const [options, setOptions] = useState<any>(BASE_CHART)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [startDate, setStartDate] = useState<string>()
+  const [endDate, setEndDate] = useState<string>()
   async function getData () {
-    const btn = document.getElementById('btn') as HTMLInputElement
-    const download = document.getElementById('download') as HTMLInputElement
-    const startDate = (document.getElementById('start_date') as HTMLInputElement).valueAsDate
-    const endDate = (document.getElementById('end_date') as HTMLInputElement).valueAsDate
-    const startDateString = (startDate.getMonth()+1).toString().padStart(2,'0')
-    + '-' + startDate.getDate().toString().padStart(2,'0')
-    + '-' + startDate.getFullYear().toString()
-    const endDateString = (endDate.getMonth()+1).toString().padStart(2,'0')
-    + '-' + endDate.getDate().toString().padStart(2,'0')
-    + '-' + endDate.getFullYear().toString()
     console.log(`Date range: ${startDate} -> ${endDate}`)
-    btn.disabled = true
+    setLoading(true)
 
     const ions:Ions = {}
     let countTotal = 0
@@ -2534,7 +2529,7 @@ export default function Ions () {
     let countFraction = 0
     let countMethod = 0
     let countIons = 0
-    const csv = Papa.parse(`https://www.waterqualitydata.us/data/Result/search?countrycode=US&statecode=US%3A54&countycode=US%3A54%3A039&startDateLo=${startDateString}&startDateHi=${endDateString}&mimeType=csv`, {
+    const csv = Papa.parse(`https://www.waterqualitydata.us/data/Result/search?countrycode=US&statecode=US%3A54&countycode=US%3A54%3A039&startDateLo=${startDate}&startDateHi=${endDate}&mimeType=csv`, {
       download: true,
       header: true,
       step: (results, parser) => {
@@ -2684,17 +2679,12 @@ export default function Ions () {
         var data = new Blob([text], {type: 'text/csv'});
     
         var url = window.URL.createObjectURL(data);
-    
-        download.onclick = () => {
-          window.location.href=url
-        }
-        download.style.visibility = 'visible'
-        download.disabled = false
 
         console.log(`Filtered down to ${countIons}/${countMethod}/${countFraction}/${countWater}/${countTotal} rows`)
+        setLoading(false)
       },
       error: (err,file) => {
-        btn.disabled = false
+        setLoading(false)
       }
     })
 
@@ -2707,14 +2697,8 @@ export default function Ions () {
       </Head>
       <Nav />
       <main>
-        <label htmlFor='start_date'>Start date:</label>
-        <input type='date' id='start_date' name='start_date' />
-        <br />
-        <label htmlFor='end_date'>End date:</label>
-        <input type='date' id='end_date' name='end_date' />
-        <br />
-        <br />
-        <button id='btn' onClick={() => getData()}>Process</button> <button id='download' style={{visibility: "hidden"} as CSSProperties}>Download</button>
+        <RangePicker format={"MM-DD-YYYY"} onChange={(dates, dateStrings)=>{setStartDate(dateStrings[0]);setEndDate(dateStrings[1]);console.log('Set dates ', dateStrings)}} disabled={loading} />
+        <Button type="primary" onClick={() => getData()} loading={loading} disabled={loading}>{loading?'Processing':'Process'}</Button>
         <HighchartsReact
           highcharts={Highcharts}
           options={options}
