@@ -5,6 +5,7 @@ import * as Highcharts from 'highcharts'
 import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsReact from 'highcharts-react-official'
 import Papa from 'papaparse'
+import moment from 'moment'
 import { Button, DatePicker } from 'antd'
 const { RangePicker } = DatePicker
 
@@ -2519,6 +2520,9 @@ export default function Ions () {
   const [loading, setLoading] = useState<boolean>(false)
   const [startDate, setStartDate] = useState<string>()
   const [endDate, setEndDate] = useState<string>()
+  const disabledDate = (current:moment.Moment):boolean => {
+    return current > moment()
+  }
   async function getData () {
     console.log(`Date range: ${startDate} -> ${endDate}`)
     setLoading(true)
@@ -2697,7 +2701,7 @@ export default function Ions () {
       </Head>
       <Nav />
       <main>
-        <RangePicker format={"MM-DD-YYYY"} onChange={(dates, dateStrings)=>{setStartDate(dateStrings[0]);setEndDate(dateStrings[1]);console.log('Set dates ', dateStrings)}} disabled={loading} />
+        <RangePicker disabledDate={disabledDate} format={"MM-DD-YYYY"} onChange={(dates, dateStrings)=>{setStartDate(dateStrings[0]);setEndDate(dateStrings[1]);console.log('Set dates ', dateStrings)}} disabled={loading} />
         <Button type="primary" onClick={() => getData()} loading={loading} disabled={loading}>{loading?'Processing':'Process'}</Button>
         <HighchartsReact
           highcharts={Highcharts}
