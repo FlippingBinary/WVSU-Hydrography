@@ -2738,7 +2738,7 @@ export default function Ions () {
                   <td>{row[8]}</td>
                   <td>{row[9]}</td>
                 </tr>
-              ):'')}
+              ):null)}
             </tbody>
           </table>
         </>
