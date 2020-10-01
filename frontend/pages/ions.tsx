@@ -2725,7 +2725,7 @@ export default function Ions () {
             </thead>
             <tbody>
               {data.map((row,i) => (i) ? (
-                <tr>
+                <tr key={i}>
                   <td>{i}</td>
                   <td>{(new Date(1000 * parseInt(row[0]))).toLocaleString()}</td>
                   <td>{row[1]}</td>
