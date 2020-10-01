@@ -2584,7 +2584,6 @@ export default function Ions () {
         ]]
         const newOptions = JSON.parse(JSON.stringify(BASE_CHART))
         for ( const [key, value] of Object.entries(ions)) {
-          console.log(`${key}(${value['DateTime']}) -> ${'Carbonate' in value},${'Bicarbonate' in value},${'Calcium' in value},${'Magnesium' in value},${'Sodium' in value},${'Potassium' in value},${'Chloride' in value},${'Sulfate' in value}`)
           if ( 'Carbonate' in value
               && 'Bicarbonate' in value
               && 'Calcium' in value
@@ -2623,8 +2622,7 @@ export default function Ions () {
             const combinationXraw = (Math.tan(60*(Math.PI/180))*anionXraw+Math.tan(60*(Math.PI/180))*cationX-cationY+anionY)/(2*Math.tan(60*(Math.PI/180)))
             const combinationX = combinationXraw+0.5
             const combinationY = (cationY+(Math.tan(60*(Math.PI/180))*combinationXraw-Math.tan(60*(Math.PI/180))*cationX))+0.5*Math.tan(60*(Math.PI/180))
-            console.log(`Using ions: ${calcium}, ${magnesium}, ${sodiumPotassium}, ${chloride}, ${bicarbonate}, ${carbonate}, ${sulfate}`)
-            console.log(`Placing sample ${results.length-1} at (${cationX}/${cationY}), (${anionX}/${anionY}), (${combinationX}/${combinationY})`)
+
             newOptions.series.push({
               type: 'scatter',
               name: `Sample ${results.length-1}`,
