@@ -2,9 +2,17 @@ import Head from 'next/head'
 import Nav from './components/nav'
 import { useState } from 'react'
 import { Bar } from 'react-chartjs-2'
+import { Button, Col, DatePicker, Form, Layout, Row } from "antd"
+import moment from "moment"
+
 
 export default function Precipitation () {
   const [data, setData] = useState<any>()
+  const { RangePicker } = DatePicker;
+  const [loading, setLoading] = useState<boolean>(false)
+  const disabledDate = (current: moment.Moment): boolean => {
+    return current > moment()
+  }
   async function pollData () {
     const rawResponse = await fetch('/api/results', {
       method: 'POST',
@@ -54,7 +62,7 @@ export default function Precipitation () {
   }
   async function getData () {
     const btn = document.getElementById('btn') as HTMLInputElement
-    btn.disabled = true
+    /*btn.disabled = true*/
     const rawResponse = await fetch('/api/submit', {
       method: 'POST',
       headers: {
@@ -63,8 +71,8 @@ export default function Precipitation () {
       },
       body: JSON.stringify({
         type: 'precipitation',
-        start_date: (document.getElementById('start_date') as HTMLInputElement).value,
-        end_date: (document.getElementById('end_date') as HTMLInputElement).value
+        /*start_date: (document.getElementById('start_date') as HTMLInputElement).value,
+        end_date: (document.getElementById('end_date') as HTMLInputElement).value*/
       })
     })
     console.log(rawResponse)
@@ -73,7 +81,7 @@ export default function Precipitation () {
         status: 'error',
         response: rawResponse
       })
-      btn.disabled = false
+     /* btn.disabled = false*/
       return
     }
     const content = await rawResponse.json()
@@ -90,16 +98,31 @@ export default function Precipitation () {
       </Head>
       <Nav />
       <main>
-        <label htmlFor='start_date'>Start date:</label>
-        <input type='date' id='start_date' name='start_date' />
-        <br />
-        <label htmlFor='end_date'>End date:</label>
-        <input type='date' id='end_date' name='end_date' />
-        <br />
-        <br />
-        <button id='btn' onClick={() => getData()}>Process</button>
-        {data &&
-          <Bar data={data} />}
+      <Layout>
+          <Form onFinish={getData}>
+            <Form.Item
+              label="Date Range"
+              name="dates"
+              initialValue={[moment('2009-01-01'),moment()]}
+              >
+            <RangePicker
+              disabledDate={disabledDate}
+              format={"MM-DD-YYYY"}
+              disabled={loading}
+            />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                disabled={loading}
+                >
+                {loading ? "Processing" : "Process"}
+              </Button>
+            </Form.Item>
+          </Form>
+        </Layout>  
       </main>
 
       <style jsx>{`
