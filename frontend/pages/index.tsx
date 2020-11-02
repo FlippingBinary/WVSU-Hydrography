@@ -1,14 +1,20 @@
 import React from 'react'
 import Head from 'next/head'
-import Nav from './components/nav'
+import Nav from './components/nav1'
+import { Layout } from 'antd';
+const { Header } = Layout;
 
-export default function Home () {
+export default function Home () 
+
+{
   return (
     <body>
       <Head>
         <title>HSPF</title>
       </Head>
-      <Nav />
+      <Layout >
+        <Nav />
+      </Layout>
       <div className='hero'>
         <header>
           <h1 className='title'><u>Hydrologic Simulation Program in Fortran</u></h1>
