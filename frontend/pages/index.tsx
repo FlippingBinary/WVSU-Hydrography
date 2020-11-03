@@ -2,7 +2,8 @@ import React from 'react'
 import Head from 'next/head'
 import Nav from './components/nav1'
 import { Layout } from 'antd';
-const { Header } = Layout;
+
+const { Content } = Layout;
 
 export default function Home () 
 
@@ -17,11 +18,14 @@ export default function Home ()
       </Layout>
       <div className='hero'>
         <header>
-          <h1 className='title'><u>Hydrologic Simulation Program in Fortran</u></h1>
+          <h1 className='title'><u><b><i>Hydrologic Simulation Program in Fortran</i></b></u></h1>
         </header>
 
         <br />
+        <Content > 
         <h2 className='title'><b><i><u>Intoduction</u></i></b></h2>
+        <br />
+        
         <p className='description'>
           Hydrological Simulation Program - FORTRAN (HSPF) is a comprehensive package for simulation of
           watershed hydrology and water quality for both conventional and toxic organic pollutants. HSPF
@@ -38,6 +42,8 @@ export default function Home ()
         </p>
 
         <h2 className='title'><b><i><u>Application</u></i></b></h2>
+        <br />
+        <br />
         <p className='description'>
           The abstract for the Application of BASINS/HSPF to Data-scarce Watersheds follows. Better
           Assessment Science Integrating Point and Nonpoint Sources (BASINS 4.1) is a program developed by
@@ -53,11 +59,13 @@ export default function Home ()
           presents steps to import data to BASINS, delineate watersheds, and launch BASINS to build an HSPF
           model project.
         </p>
+        <br />
+        </Content>
       </div>
-
+      
       <footer className='footer'>
-        <p>©2020 West Virginia State University |  P.O. Box 1000 Institute, WV 25112-1000 |  (304) 766-3000 </p>
-        <img src='https://upload.wikimedia.org/wikipedia/en/thumb/4/42/West_Virginia_State_University_seal.png/150px-West_Virginia_State_University_seal.png' width='50' height='50' />
+        <p>©2020 West Virginia State University |  P.O. Box 1000 Institute, WV 25112-1000 |  (304) 766-3000 </p><></>
+        <img src='https://upload.wikimedia.org/wikipedia/en/thumb/4/42/West_Virginia_State_University_seal.png/150px-West_Virginia_State_University_seal.png' width="22" height="22" margin-left="auto"/>
       </footer>
 
       <style jsx>
@@ -65,16 +73,17 @@ export default function Home ()
           .hero {
             width: 100%;
             color: #333;
+            background-image: url('https://images.wallpaperscraft.com/image/line_angle_light_color_43982_2560x1600.jpg');
           }
           body {
-            background-image: url('https://images.unsplash.com/photo-1485627941502-d2e6429a8af0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80');
+            
           }
           .footer {
             display: flex;
             justify-content: center;
             padding: 5px;
-            background-color: grey;
-            color: #fff;
+            background-color:#636363;
+            color: #000000;
             border:black;
           }
           .title {
