@@ -136,7 +136,7 @@ const BASE_CHART = {
     {
       dashStyle: 'ShortDash',
       type: 'line',
-      color: 'black',
+      color: 'grey',
       marker: false,
       showInLegend: false,
       enableMouseTracking: false,
@@ -153,7 +153,7 @@ const BASE_CHART = {
     {
       dashStyle: 'ShortDash',
       type: 'line',
-      color: 'black',
+      color: 'grey',
       marker: false,
       showInLegend: false,
       enableMouseTracking: false,
@@ -170,7 +170,7 @@ const BASE_CHART = {
     {
       dashStyle: 'ShortDash',
       type: 'line',
-      color: 'black',
+      color: 'grey',
       marker: false,
       showInLegend: false,
       enableMouseTracking: false,
@@ -187,7 +187,7 @@ const BASE_CHART = {
     {
       dashStyle: 'ShortDash',
       type: 'line',
-      color: 'black',
+      color: 'grey',
       marker: false,
       showInLegend: false,
       enableMouseTracking: false,
