@@ -6,7 +6,7 @@ import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsReact from 'highcharts-react-official'
 import Papa from 'papaparse'
 import moment from 'moment'
-import { Button, DatePicker } from 'antd'
+import { Button, DatePicker ,Form , Layout } from 'antd'
 const { RangePicker } = DatePicker
 
 if (typeof Highcharts === 'object') {
@@ -16,6 +16,13 @@ if (typeof Highcharts === 'object') {
 interface Ions {
   [key: string]: Map<string,string>
 }
+const tailLayout = {
+  wrapperCol: {
+    offset: 11,
+    span: 16,
+  },
+  align: 'center',
+};
 
 const validIons = [
   'Carbonate',
@@ -2699,8 +2706,22 @@ export default function Ions () {
       </Head>
       <Nav />
       <main>
-        <RangePicker disabledDate={disabledDate} format={"MM-DD-YYYY"} onChange={(dates, dateStrings)=>{setStartDate(dateStrings[0]);setEndDate(dateStrings[1]);console.log('Set dates ', dateStrings)}} disabled={loading} />
-        <Button type="primary" onClick={() => getData()} loading={loading} disabled={loading}>{loading?'Processing':'Process'}</Button>
+      <Layout>
+          <Form onFinish={getData} >
+            <Form.Item
+             labelCol={{ span: 10 }}
+              label="Date Range"
+              name="dates"
+              >
+            <RangePicker disabledDate={disabledDate}  format={"MM-DD-YYYY"} onChange={(dates, dateStrings)=>{setStartDate(dateStrings[0]);setEndDate(dateStrings[1]);console.log('Set dates ', dateStrings)}} disabled={loading} />
+
+            </Form.Item>
+            <Form.Item {...tailLayout}>
+            <Button type="primary" onClick={() => getData()} loading={loading} disabled={loading}>{loading?'Processing':'Process'}</Button>
+            </Form.Item>
+          </Form>
+        </Layout>  
+        
         {data &&
         <>
           <HighchartsReact
