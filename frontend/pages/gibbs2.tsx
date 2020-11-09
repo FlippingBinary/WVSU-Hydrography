@@ -16,6 +16,13 @@ if (typeof Highcharts === "object") {
 interface Ions {
   [key: string]: Map<string, string>
 }
+const tailLayout = {
+  wrapperCol: {
+    offset: 11,
+    span: 16,
+  },
+  align: 'center',
+};
 
 const validIons = [
   'Carbonate',
@@ -436,6 +443,7 @@ export default function Gibbs() {
         <Layout>
           <Form onFinish={getData}>
             <Form.Item
+            labelCol={{ span: 10 }}
               label="Date Range"
               name="dates"
               initialValue={[moment('2009-01-01'),moment()]}
@@ -446,7 +454,7 @@ export default function Gibbs() {
               disabled={loading}
             />
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button
                 type="primary"
                 htmlType="submit"

@@ -12,6 +12,12 @@ export default function Evaporation () {
   const disabledDate = (current: moment.Moment): boolean => {
     return current > moment()
   }
+  const tailLayout = {
+    wrapperCol: {
+      offset: 11,
+      span: 16,
+    },
+  };
   async function pollData () {
     const rawResponse = await fetch('/api/results', {
       method: 'POST',
@@ -100,9 +106,10 @@ export default function Evaporation () {
       <Layout>
           <Form onFinish={getData}>
             <Form.Item
+              labelCol={{ span: 10 }}
               label="Date Range"
               name="dates"
-              initialValue={[moment('2009-01-01'),moment()]}
+              initialValue={[moment('1979-01-01'),moment()]}
               >
             <RangePicker
               disabledDate={disabledDate}
@@ -110,7 +117,7 @@ export default function Evaporation () {
               disabled={loading}
             />
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button
                 type="primary"
                 htmlType="submit"

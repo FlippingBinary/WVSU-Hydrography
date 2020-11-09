@@ -13,6 +13,12 @@ export default function Precipitation () {
   const disabledDate = (current: moment.Moment): boolean => {
     return current > moment()
   }
+  const tailLayout = {
+    wrapperCol: {
+      offset: 11,
+      span: 16,
+    },
+  };
   async function pollData () {
     const rawResponse = await fetch('/api/results', {
       method: 'POST',
@@ -70,8 +76,8 @@ export default function Precipitation () {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        type: 'precipitation',
-        /*start_date: (document.getElementById('start_date') as HTMLInputElement).value,
+        type: 'precipitation'/*,
+        start_date: (document.getElementById('start_date') as HTMLInputElement).value,
         end_date: (document.getElementById('end_date') as HTMLInputElement).value*/
       })
     })
@@ -99,11 +105,12 @@ export default function Precipitation () {
       <Nav />
       <main>
       <Layout>
-          <Form onFinish={getData}>
+          <Form onFinish={getData} >
             <Form.Item
+             labelCol={{ span: 10 }}
               label="Date Range"
               name="dates"
-              initialValue={[moment('2009-01-01'),moment()]}
+              initialValue={[moment('1979-01-01'),moment()]}
               >
             <RangePicker
               disabledDate={disabledDate}
@@ -111,7 +118,7 @@ export default function Precipitation () {
               disabled={loading}
             />
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button
                 type="primary"
                 htmlType="submit"
@@ -155,6 +162,10 @@ export default function Precipitation () {
         color: #067df7;
         text-decoration: none;
         font-size: 13px;
+      }
+      .form {
+        text-align: center;
+        
       }
     `}
       </style>
