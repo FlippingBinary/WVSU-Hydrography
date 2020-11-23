@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
-import Nav from './components/nav'
+import Nav from '@components/nav'
 import { ChangeEvent, CSSProperties, useState } from 'react'
 import Papa from 'papaparse'
 import moment from 'moment'

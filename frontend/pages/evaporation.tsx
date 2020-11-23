@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Nav from './components/nav'
+import Nav from '@components/nav'
 import { useState } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { Button, Col, DatePicker, Form, Layout, Row } from "antd"

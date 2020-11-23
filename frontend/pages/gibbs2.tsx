@@ -1,5 +1,5 @@
 import Head from "next/head"
-import Nav from "./components/nav"
+import Nav from "@components/nav"
 import React, { CSSProperties, useState } from "react"
 import * as Highcharts from "highcharts"
 import HighchartsExporting from "highcharts/modules/exporting"
