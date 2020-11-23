@@ -2,9 +2,9 @@ import React from 'react'
 import Link from 'next/link'
 
 const links = [
-  { href: '../precipitation', label: 'Precipitation' },
-  { href: '../evaporation', label: 'Evaporation' },
-  { href:'../index' , label:'Home'}
+  { href: '/precipitation', label: 'Precipitation' },
+  { href: '/evaporation', label: 'Evaporation' },
+  { href:'/' , label:'Home'}
 ].map(link => {
   link.key = `nav-link-${link.href}-${link.label}`
   return link
