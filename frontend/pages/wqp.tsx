@@ -79,7 +79,7 @@ const WQP: NextPage<Props> = ({ results }) => {
       <Head>
         <title>WQP</title>
       </Head>
-      <Nav />
+      <Nav path='/wqp' />
       <Layout>
         <Content>
           {/*

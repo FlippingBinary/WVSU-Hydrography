@@ -101,7 +101,7 @@ export default function Evaporation () {
       <Head>
         <title>Evaporation</title>
       </Head>
-      <Nav />
+      <Nav path='/evaporation' />
       <main>
       <Layout>
           <Form onFinish={getData}>

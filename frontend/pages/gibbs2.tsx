@@ -438,7 +438,7 @@ export default function Gibbs() {
       <Head>
         <title>Gibbs</title>
       </Head>
-      <Nav />
+      <Nav path='/gibbs2' />
       <main>
         <Layout>
           <Form onFinish={getData}>

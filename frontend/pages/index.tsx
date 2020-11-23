@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import Nav from '@components/nav1'
+import Nav from '@components/nav'
 import { Layout } from 'antd';
 
 const { Content } = Layout;
@@ -14,7 +14,7 @@ export default function Home ()
         <title>HSPF</title>
       </Head>
       <Layout >
-        <Nav />
+        <Nav path='' />
       </Layout>
       <div className='hero'>
         <header>

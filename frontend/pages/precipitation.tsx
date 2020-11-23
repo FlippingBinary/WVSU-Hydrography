@@ -102,7 +102,7 @@ export default function Precipitation () {
       <Head>
         <title>Precipitation</title>
       </Head>
-      <Nav />
+      <Nav path='/precipitation' />
       <main>
       <Layout>
           <Form onFinish={getData} >

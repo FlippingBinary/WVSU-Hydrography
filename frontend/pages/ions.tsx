@@ -2704,7 +2704,7 @@ export default function Ions () {
       <Head>
         <title>Ions</title>
       </Head>
-      <Nav />
+      <Nav path='/ions' />
       <main>
       <Layout>
           <Form onFinish={getData} >

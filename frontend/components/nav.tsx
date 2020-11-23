@@ -7,15 +7,17 @@ const links = [
   { href:'/' , label:'Home'}
 ]
 
-const Nav = () => (
+const Nav = ({ path }: {path:string}) => (
   <nav>
     <ul>
       {links.map(({ href, label }) => (
         <li key={`nav-link-${href}-${label}`}>
-          <Link href={href}><a>{label}</a></Link>
+          { ( path == href ) ? label :
+            <Link href={href}><a>{label}</a></Link>
+          }
         </li>
       ))}
-      <li><a href='https://www.wvstateu.edu/about.aspx' target="_blank">About</a></li>
+      <li><a href='https://www.wvstateu.edu/about.aspx' target="_blank">About WVSU</a></li>
     </ul>
 
     <style jsx>{`
