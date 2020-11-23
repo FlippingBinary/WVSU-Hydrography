@@ -2,9 +2,9 @@ import React from 'react'
 import Link from 'next/link'
 
 const links = [
-  { href: '/precipitation', label: 'Precipitation' },
+  { href:'/' , label:'Home'},
   { href: '/evaporation', label: 'Evaporation' },
-  { href:'/' , label:'Home'}
+  { href: '/precipitation', label: 'Precipitation' }
 ]
 
 const Nav = ({ path }: {path:string}) => (
