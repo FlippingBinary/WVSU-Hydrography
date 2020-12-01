@@ -18,12 +18,13 @@ export default function Home ()
       </Layout>
       <div className='hero'>
         <header>
-          <h1 className='title'><u><b><i>Hydrologic Simulation Program in Fortran</i></b></u></h1>
+          <h1 className='title'><u><b><i>Hydrological Simulation Program in Fortran</i></b></u></h1>
         </header>
 
         <br />
         <Content > 
         <h2 className='title'><b><i><u>Intoduction</u></i></b></h2>
+        <br />
         <br />
         
         <p className='description'>
@@ -64,7 +65,7 @@ export default function Home ()
       </div>
       
       <footer className='footer'>
-        <p>©2020 West Virginia State University |  P.O. Box 1000 Institute, WV 25112-1000 |  (304) 766-3000 </p><></>
+        <p>©2020-2021 West Virginia State University |  P.O. Box 1000 Institute, WV 25112-1000 |  (304) 766-3000 </p><></>
         <img src='https://upload.wikimedia.org/wikipedia/en/thumb/4/42/West_Virginia_State_University_seal.png/150px-West_Virginia_State_University_seal.png' width="22" height="22" margin-left="auto"/>
       </footer>
 
@@ -81,7 +82,7 @@ export default function Home ()
           .footer {
             display: flex;
             justify-content: center;
-            padding: 5px;
+            padding: 9px;
             background-color:#636363;
             color: #000000;
             border:black;
