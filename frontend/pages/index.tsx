@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Nav from '@components/nav'
 import { Layout } from 'antd';
 
-const { Content } = Layout;
+const { Content,Footer,Header } = Layout;
 
 export default function Home () 
 
@@ -21,11 +21,10 @@ export default function Home ()
           <h1 className='title'><u><b><i>Hydrological Simulation Program in Fortran</i></b></u></h1>
         </header>
 
-        <br />
-        <Content > 
+       
+        <Content style={{ padding: '0 50px', marginTop: 64 }} > 
         <h2 className='title'><b><i><u>Intoduction</u></i></b></h2>
-        <br />
-        <br />
+       
         
         <p className='description'>
           Hydrological Simulation Program - FORTRAN (HSPF) is a comprehensive package for simulation of
@@ -38,13 +37,12 @@ export default function Home ()
           pesticide concentrations, along with a time history of water quantity and quality at any point in a
           watershed. HSPF simulates three sediment types (sand, silt, and clay) in addition to a single organic
           chemical and transformation products of that chemical.
-          <br />
+          
           <a href='https://www.epa.gov/ceam/basins-framework-and-features' target='_blank' rel='noopener noreferrer'>Extra information</a>
         </p>
 
         <h2 className='title'><b><i><u>Application</u></i></b></h2>
-        <br />
-        <br />
+        
         <p className='description'>
           The abstract for the Application of BASINS/HSPF to Data-scarce Watersheds follows. Better
           Assessment Science Integrating Point and Nonpoint Sources (BASINS 4.1) is a program developed by
@@ -60,14 +58,13 @@ export default function Home ()
           presents steps to import data to BASINS, delineate watersheds, and launch BASINS to build an HSPF
           model project.
         </p>
-        <br />
+       
         </Content>
       </div>
       
-      <footer className='footer'>
-        <p>©2020-2021 West Virginia State University |  P.O. Box 1000 Institute, WV 25112-1000 |  (304) 766-3000 </p><></>
-        <img src='https://upload.wikimedia.org/wikipedia/en/thumb/4/42/West_Virginia_State_University_seal.png/150px-West_Virginia_State_University_seal.png' width="22" height="22" margin-left="auto"/>
-      </footer>
+      <Footer style={{ textAlign: 'center'}}><p>©2020-2021 West Virginia State University |  P.O. Box 1000 Institute, WV 25112-1000 |  (304) 766-3000 </p> 
+      <img alt="WV State University" src='https://upload.wikimedia.org/wikipedia/en/thumb/4/42/West_Virginia_State_University_seal.png/150px-West_Virginia_State_University_seal.png' width="50" height="50" margin-left="auto"/>
+      </Footer>
 
       <style jsx>
         {`
@@ -86,9 +83,9 @@ export default function Home ()
             background-color:#636363;
             color: #000000;
             border:black;
-          }
+          } 
           .title {
-            margin: 0;
+            margin: 10;
             width: 100%;
             padding-top: 25px;
             line-height: 1.15;
