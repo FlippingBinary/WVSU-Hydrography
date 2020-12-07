@@ -16,17 +16,18 @@ export default function Home ()
       <Layout >
         <Nav path='' />
       </Layout>
+      
       <div className='hero'>
         <header>
-          <h1 className='title'><u><b><i>Hydrological Simulation Program in Fortran</i></b></u></h1>
+          <h1 className='title Link'><u><b>Hydrological Simulation Program in Fortran</b></u></h1>
         </header>
 
        
-        <Content style={{ padding: '0 50px', marginTop: 64 }} > 
-        <h2 className='title'><b><i><u>Intoduction</u></i></b></h2>
+        <Content style={{ padding: '0 50px', marginTop: 5 }} > 
+        <h2 className='title Link'><b><u>Intoduction</u></b></h2>
        
         
-        <p className='description'>
+        <p className='description Link'>
           Hydrological Simulation Program - FORTRAN (HSPF) is a comprehensive package for simulation of
           watershed hydrology and water quality for both conventional and toxic organic pollutants. HSPF
           incorporates watershed-scale ARM and NPS models into a basin-scale analysis framework that
@@ -38,12 +39,12 @@ export default function Home ()
           watershed. HSPF simulates three sediment types (sand, silt, and clay) in addition to a single organic
           chemical and transformation products of that chemical.
           
-          <a href='https://www.epa.gov/ceam/basins-framework-and-features' target='_blank' rel='noopener noreferrer'>Extra information</a>
+          <a className="Link1" href='https://www.epa.gov/ceam/basins-framework-and-features' target='_blank' rel='noopener noreferrer'><b>Extra information</b></a>
         </p>
 
-        <h2 className='title'><b><i><u>Application</u></i></b></h2>
+        <h2 className='title Link'><b><u>Application</u></b></h2>
         
-        <p className='description'>
+        <p className="description Link">
           The abstract for the Application of BASINS/HSPF to Data-scarce Watersheds follows. Better
           Assessment Science Integrating Point and Nonpoint Sources (BASINS 4.1) is a program developed by
           the US EPA for local, regional, and state agencies responsible for water resources management,
@@ -58,10 +59,9 @@ export default function Home ()
           presents steps to import data to BASINS, delineate watersheds, and launch BASINS to build an HSPF
           model project.
         </p>
-       
+        <br />
         </Content>
       </div>
-      
       <Footer style={{ textAlign: 'center'}}><p>©2020-2021 West Virginia State University |  P.O. Box 1000 Institute, WV 25112-1000 |  (304) 766-3000 </p> 
       <img alt="WV State University" src='https://upload.wikimedia.org/wikipedia/en/thumb/4/42/West_Virginia_State_University_seal.png/150px-West_Virginia_State_University_seal.png' width="50" height="50" margin-left="auto"/>
       </Footer>
@@ -71,7 +71,7 @@ export default function Home ()
           .hero {
             width: 100%;
             color: #333;
-            background-image: url('https://images.wallpaperscraft.com/image/line_angle_light_color_43982_2560x1600.jpg');
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSMYm4DnMp4eLwZQ3aGvAPAZA3BhYPdd0Fmg&usqp=CAU');
           }
           body {
             
@@ -84,12 +84,21 @@ export default function Home ()
             color: #000000;
             border:black;
           } 
+          .Link {
+            color:#ffffff;
+          }
+          .Link1 {
+            color:BCEEFF;
+          }
           .title {
             margin: 10;
             width: 100%;
             padding-top: 25px;
             line-height: 1.15;
             font-size: 48px;
+          }
+          a:hover {
+            background-color: yellow;
           }
           .title,
           .description {
