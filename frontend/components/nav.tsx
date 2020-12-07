@@ -4,7 +4,9 @@ import Link from 'next/link'
 const links = [
   { href:'/' , label:'Home'},
   { href: '/evaporation', label: 'Evaporation' },
-  { href: '/precipitation', label: 'Precipitation' }
+  { href: '/precipitation', label: 'Precipitation' },
+  { href:'/ions' , label:'Piper'},
+  { href:'/gibbs2' , label:'Gibbs'},
 ]
 
 const Nav = ({ path }: {path:string}) => (
