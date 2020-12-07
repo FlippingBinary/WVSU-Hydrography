@@ -24,7 +24,7 @@ export default function Home ()
 
        
         <Content style={{ padding: '0 50px', marginTop: 5 }} > 
-        <h2 className='title Link'><b><u>Intoduction</u></b></h2>
+        <h2 className='title Link'><b><u>Introduction</u></b></h2>
        
         
         <p className='description Link'>
@@ -71,7 +71,7 @@ export default function Home ()
           .hero {
             width: 100%;
             color: #333;
-            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSMYm4DnMp4eLwZQ3aGvAPAZA3BhYPdd0Fmg&usqp=CAU');
+            background-color:black;
           }
           body {
             
